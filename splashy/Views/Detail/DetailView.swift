@@ -1,83 +1,92 @@
 import UnifiedBlurHash
+import PhotosUI
 import SwiftUI
 
-struct HomeView: View {
-    @StateObject var homeState = HomeState()
-        
+struct DetailView: View {
+    let picture: UnsplashPhoto
+    
+    @State private var selectedOption = "Regular"
+    @State private var isSaving = false
+    @State private var saveSuccess = false
+
+    
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 20) {
+                Picker("Options", selection: $selectedOption) {
+                    Text("Regular").tag("Regular")
+                    Text("Full").tag("Full")
+                    Text("Small").tag("Small")
+                }
+                .pickerStyle(.segmented)
+                .padding()
+                
+                AsyncImage(url: imageUrl(for: selectedOption)) { image in
+                    image.resizable()
+                        .scaledToFit()
+                } placeholder: {
+                    Image(blurHash: picture.blur_hash)?.resizable()
+                        .scaledToFit()
+                }
+                .frame(height: 500)
+                .cornerRadius(12)
+                .padding()
+                
+                Spacer()
+                
                 Button(action: {
-                    Task { await homeState.fetchPictures(); await homeState.fetchTopics() }
-                }, label: { Text("Load...") })
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHGrid(rows: [GridItem()], spacing: 8) {
-                        if let topicsList = homeState.topics {
-                            ForEach(topicsList) { topic in
-                                NavigationLink(destination: TopicView(id: topic.id)) {
-                                    VStack(spacing: 8) {
-                                        AsyncImage(url: URL(string: topic.cover_photo.urls.small)) { image in
-                                            image.resizable()
-                                        } placeholder: {
-                                            Image(blurHash: topic.cover_photo.blur_hash)?.resizable()
-                                        }
-                                        .frame(width: 120, height: 80)
-                                        .cornerRadius(12)
-                                        
-                                        Text(topic.title)
-                                            .font(.system(size: 11))
-                                    }
-                                }
-                            }
-                        } else {
-                            ForEach(0..<10) { _ in
-                                VStack(spacing: 8) {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.gray.opacity(0.3))
-                                        .frame(width: 120, height: 80)
-                                    
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(Color.gray.opacity(0.3))
-                                        .frame(width: 80, height: 12)
-                                }
-                            }
-                        }
+                    if let url = imageUrl(for: selectedOption) {
+                        downloadImage(from: url)
                     }
-                    .padding(.horizontal, 8)
-                    .frame(height: 140)
-                }
-                
-                ScrollView (showsIndicators: false) {
-                    LazyVGrid(columns: [GridItem(), GridItem()], spacing: 8) {
-                        if let picturesList = homeState.pictures {
-                            ForEach(picturesList) { picture in
-                                AsyncImage(url: URL(string: picture.urls.small)) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    Image(blurHash: picture.blur_hash)?.resizable()
-                                } 
-                                .frame(height: 150)
-                                .cornerRadius(12)
-                            }
-                        } else {
-                            ForEach(0..<10, id: \.self) { _ in
-                                Rectangle()
-                                    .fill(Color.gray.opacity(0.3))
-                                    .frame(height: 150)
-                                    .cornerRadius(12)
-                            }
-                        }
+                }) {
+                    HStack {
+                        Image(systemName: "square.and.arrow.up")
+                        Text("Télécharger")
                     }
-                    .padding(.horizontal, 8)
+                    .font(.headline)
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding()
+                .disabled(saveSuccess)
             }
-            .navigationTitle("Feed")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 0) {
+                        Text("Une image de ")
+                            .font(.headline)
+                        
+                        Link(destination: userUrl(username: picture.user.username)!) {
+                            Text("@\(picture.user.username)")
+                                .font(.headline)
+                        }
+                    }
+                }
+            }
         }
     }
-}
-
-#Preview {
-    HomeView()
+    
+    private func imageUrl(for option: String) -> URL? {
+        switch option {
+        case "Regular":
+            return URL(string: picture.urls.regular)
+        case "Full":
+            return URL(string: picture.urls.full)
+        case "Small":
+            return URL(string: picture.urls.small)
+        default:
+            return nil
+        }
+    }
+    
+    private func downloadImage(from url: URL) {
+        Task {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                if let image = UIImage(data: data) {
+                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                }
+            } catch {
+                print("Erreur lors du téléchargement de l'image : \(error)")
+            }
+        }
+    }
 }

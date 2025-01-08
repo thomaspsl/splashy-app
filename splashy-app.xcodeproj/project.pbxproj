@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		E9B93DA82D2D3553002A6F39 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E9B93DA72D2D354E002A6F39 /* .gitignore */; };
 		E9B93DBC2D2D35F7002A6F39 /* Answers.md in Resources */ = {isa = PBXBuildFile; fileRef = E9B93DB72D2D35F7002A6F39 /* Answers.md */; };
+		E9B93E202D2D6E8A002A6F39 /* UnifiedBlurHash in Frameworks */ = {isa = PBXBuildFile; productRef = E9B93E1F2D2D6E8A002A6F39 /* UnifiedBlurHash */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E9B93D512D2D1684002A6F39 /* splashy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = splashy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9B93D512D2D1684002A6F39 /* splashy-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "splashy-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9B93DA72D2D354E002A6F39 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		E9B93DB72D2D35F7002A6F39 /* Answers.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Answers.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9B93E202D2D6E8A002A6F39 /* UnifiedBlurHash in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,7 +51,7 @@
 		E9B93D522D2D1684002A6F39 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E9B93D512D2D1684002A6F39 /* splashy.app */,
+				E9B93D512D2D1684002A6F39 /* splashy-app.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,9 +59,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E9B93D502D2D1684002A6F39 /* splashy */ = {
+		E9B93D502D2D1684002A6F39 /* splashy-app */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E9B93D5F2D2D1685002A6F39 /* Build configuration list for PBXNativeTarget "splashy" */;
+			buildConfigurationList = E9B93D5F2D2D1685002A6F39 /* Build configuration list for PBXNativeTarget "splashy-app" */;
 			buildPhases = (
 				E9B93D4D2D2D1684002A6F39 /* Sources */,
 				E9B93D4E2D2D1684002A6F39 /* Frameworks */,
@@ -72,11 +74,12 @@
 			fileSystemSynchronizedGroups = (
 				E9B93D532D2D1684002A6F39 /* splashy */,
 			);
-			name = splashy;
+			name = "splashy-app";
 			packageProductDependencies = (
+				E9B93E1F2D2D6E8A002A6F39 /* UnifiedBlurHash */,
 			);
 			productName = splashy;
-			productReference = E9B93D512D2D1684002A6F39 /* splashy.app */;
+			productReference = E9B93D512D2D1684002A6F39 /* splashy-app.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -94,7 +97,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E9B93D4C2D2D1684002A6F39 /* Build configuration list for PBXProject "splashy" */;
+			buildConfigurationList = E9B93D4C2D2D1684002A6F39 /* Build configuration list for PBXProject "splashy-app" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -103,12 +106,15 @@
 			);
 			mainGroup = E9B93D482D2D1684002A6F39;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E9B93DF82D2D6CDC002A6F39 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E9B93D522D2D1684002A6F39 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E9B93D502D2D1684002A6F39 /* splashy */,
+				E9B93D502D2D1684002A6F39 /* splashy-app */,
 			);
 		};
 /* End PBXProject section */
@@ -267,6 +273,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Splashy;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Cette application utilise la bibliothèque pour enregistrer des images téléchargées.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -297,6 +304,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Splashy;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Cette application utilise la bibliothèque pour enregistrer des images téléchargées.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -318,7 +326,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E9B93D4C2D2D1684002A6F39 /* Build configuration list for PBXProject "splashy" */ = {
+		E9B93D4C2D2D1684002A6F39 /* Build configuration list for PBXProject "splashy-app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9B93D5D2D2D1685002A6F39 /* Debug */,
@@ -327,7 +335,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E9B93D5F2D2D1685002A6F39 /* Build configuration list for PBXNativeTarget "splashy" */ = {
+		E9B93D5F2D2D1685002A6F39 /* Build configuration list for PBXNativeTarget "splashy-app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9B93D602D2D1685002A6F39 /* Debug */,
@@ -337,6 +345,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E9B93DF82D2D6CDC002A6F39 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iankoex/UnifiedBlurHash";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E9B93E1F2D2D6E8A002A6F39 /* UnifiedBlurHash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9B93DF82D2D6CDC002A6F39 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */;
+			productName = UnifiedBlurHash;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E9B93D492D2D1684002A6F39 /* Project object */;
 }

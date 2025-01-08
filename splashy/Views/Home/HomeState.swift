@@ -2,17 +2,18 @@ import Foundation
 import Combine
 
 @MainActor
-class FeedState: ObservableObject {
-    @Published var homeFeed: [UnsplashPhoto]?
+class HomeState: ObservableObject {
+    @Published var pictures: [UnsplashPhoto]?
+    @Published var topics: [UnsplashTopic]?
 
     func fetchPictures() async {
         do {
-            let request = URLRequest(url: feedUrl()!)
+            let request = URLRequest(url: picturesUrl()!)
             let (data, _) = try await URLSession.shared.data(for: request)
             let deserializedData = try JSONDecoder().decode([UnsplashPhoto].self, from: data)
             
             DispatchQueue.main.async {
-                self.homeFeed = deserializedData
+                self.pictures = deserializedData
             }
         } catch {
             print("Error fetching feed: \(error)")
@@ -21,12 +22,12 @@ class FeedState: ObservableObject {
     
     func fetchTopics() async {
         do {
-            let request = URLRequest(url: feedUrl()!)
+            let request = URLRequest(url: topicsUrl()!)
             let (data, _) = try await URLSession.shared.data(for: request)
-            let deserializedData = try JSONDecoder().decode([UnsplashPhoto].self, from: data)
+            let deserializedData = try JSONDecoder().decode([UnsplashTopic].self, from: data)
             
             DispatchQueue.main.async {
-                self.homeFeed = deserializedData
+                self.topics = deserializedData
             }
         } catch {
             print("Error fetching feed: \(error)")

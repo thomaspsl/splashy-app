@@ -1,21 +1,42 @@
 import UnifiedBlurHash
 import SwiftUI
 
-struct FeedView: View {
-    @StateObject var feedState = FeedState()
+struct HomeView: View {
+    @StateObject var homeState = HomeState()
+    @State private var isSheetPresented = false
+    @State private var selectedPicture: UnsplashPhoto?
         
     var body: some View {
         NavigationStack {
             VStack {
-                
                 Button(action: {
-                    Task { await feedState.fetchHomeFeed() }
+                    Task {
+                        await homeState.fetchPictures()
+                        await homeState.fetchTopics()
+                    }
                 }, label: { Text("Load...") })
                 
-                ScrollView(.horizontal) {
+                ScrollView(.horizontal, showsIndicators: false) {
                     LazyHGrid(rows: [GridItem()], spacing: 8) {
-                        ForEach(0..<10) { _ in
-                            NavigationLink(destination: TopicView()) {
+                        if let topicsList = homeState.topics {
+                            ForEach(topicsList) { topic in
+                                NavigationLink(destination: TopicView(topic: topic)) {
+                                    VStack(spacing: 8) {
+                                        AsyncImage(url: URL(string: topic.cover_photo.urls.small)) { image in
+                                            image.resizable()
+                                        } placeholder: {
+                                            Image(blurHash: topic.cover_photo.blur_hash)?.resizable()
+                                        }
+                                        .frame(width: 120, height: 80)
+                                        .cornerRadius(12)
+                                        
+                                        Text(topic.title)
+                                            .font(.system(size: 11))
+                                    }
+                                }
+                            }
+                        } else {
+                            ForEach(0..<10) { _ in
                                 VStack(spacing: 8) {
                                     RoundedRectangle(cornerRadius: 8)
                                         .fill(Color.gray.opacity(0.3))
@@ -32,17 +53,22 @@ struct FeedView: View {
                     .frame(height: 140)
                 }
                 
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     LazyVGrid(columns: [GridItem(), GridItem()], spacing: 8) {
-                        if let feedList = feedState.homeFeed {
-                            ForEach(feedList) { picture in
-                                AsyncImage(url: URL(string: picture.urls.small)) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    Image(blurHash: picture.blur_hash)?.resizable()
-                                } 
-                                .frame(height: 150)
-                                .cornerRadius(12)
+                        if let picturesList = homeState.pictures {
+                            ForEach(picturesList) { picture in
+                                Button(action: {
+                                    selectedPicture = picture
+                                    isSheetPresented = true
+                                }) {
+                                    AsyncImage(url: URL(string: picture.urls.small)) { image in
+                                        image.resizable()
+                                    } placeholder: {
+                                        Image(blurHash: picture.blur_hash)?.resizable()
+                                    }
+                                    .frame(height: 150)
+                                    .cornerRadius(12)
+                                }
                             }
                         } else {
                             ForEach(0..<10, id: \.self) { _ in
@@ -58,10 +84,9 @@ struct FeedView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
             .navigationTitle("Feed")
+            .sheet(item: $selectedPicture) { picture in
+                DetailView(picture: picture)
+            }
         }
     }
-}
-
-#Preview {
-    FeedView()
 }

@@ -1,8 +1,9 @@
-//
-//  Movie.swift
-//  splashy
-//
-//  Created by Thomas on 07/01/2025.
-//
-
 import Foundation
+
+struct Movie: Codable, Identifiable {
+    var id = UUID()
+    let title: String
+    let releaseYear: Int
+    let genre: String
+    let director: String?
+}

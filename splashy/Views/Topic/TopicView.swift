@@ -1,48 +1,34 @@
 import SwiftUI
 
-struct FeedView: View {
-    @StateObject var feedState = FeedState()
-        
+struct TopicView: View {
+    let topic: UnsplashTopic
+
+    @StateObject var topicState = TopicState()
+    @State private var isSheetPresented = false
+    @State private var selectedPicture: UnsplashPhoto?
+
     var body: some View {
         NavigationStack {
             VStack {
                 Button(action: {
-                    Task {
-                        await feedState.fetchHomeFeed()
-                    }
-                }, label: {
-                    Text("Load...")
-                })
-//              ScrollView(.horizontal) {
-                LazyHGrid(rows: [GridItem()], spacing: 8) {
-                    ForEach(0..<3) { _ in
-                        VStack(spacing: 8) {
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.gray.opacity(0.3))
-                                .frame(width: 120, height: 80)
-                            
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color.gray.opacity(0.3))
-                                .frame(width: 80, height: 12)
-                        }
-                    }
-                }
-                .padding(.horizontal, 8)
-//              }
+                    Task { await topicState.fetchTopicPictures(id: topic.id) }
+                }, label: { Text("Load photos for topic") })
+                
                 ScrollView {
                     LazyVGrid(columns: [GridItem(), GridItem()], spacing: 8) {
-                        if let feedList = feedState.homeFeed {
+                        if let feedList = topicState.pictures {
                             ForEach(feedList) { picture in
-                                AsyncImage(url: URL(string: picture.urls.small)) { image in
-                                    image
-                                        .resizable()
-                                        .frame(height: 150)
-                                        .cornerRadius(12)
-                                } placeholder: {
-                                    Rectangle()
-                                        .fill(Color(hex: picture.color).opacity(0.3))
-                                        .frame(height: 150)
-                                        .cornerRadius(12)
+                                Button(action: {
+                                    selectedPicture = picture
+                                    isSheetPresented = true
+                                }) {
+                                    AsyncImage(url: URL(string: picture.urls.small)) { image in
+                                        image.resizable()
+                                    } placeholder: {
+                                        Image(blurHash: picture.blur_hash)?.resizable()
+                                    }
+                                    .frame(height: 150)
+                                    .cornerRadius(12)
                                 }
                             }
                         } else {
@@ -58,11 +44,10 @@ struct FeedView: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .navigationTitle("Feed")
+            .navigationTitle(topic.title)
+            .sheet(item: $selectedPicture) { picture in
+                DetailView(picture: picture)
+            }
         }
     }
-}
-
-#Preview {
-    FeedView()
 }

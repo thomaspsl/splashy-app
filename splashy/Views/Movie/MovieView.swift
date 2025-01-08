@@ -17,6 +17,12 @@ struct MovieView: View {
                     Text("Genre : \(movie.genre)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
+                    
+                    if let director = movie.director {
+                        Text("Réalisateur : \(director)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 .padding(.vertical, 4)
             }
@@ -31,11 +37,14 @@ struct MovieView: View {
         let jsonString = """
         [
             {
+                "id": "be60d0db-0cbf-425e-8001-c307f778ca1c",
                 "title": "Inception",
                 "releaseYear": 2010,
-                "genre": "Sci-Fi"
+                "genre": "Sci-Fi",
+                "director": "Christopher Nolan"
             },
             {
+                "id": "7f9825bc-fb0b-4dd2-8aec-ec7715587e9b",
                 "title": "The Dark Knight",
                 "releaseYear": 2008,
                 "genre": "Action"
