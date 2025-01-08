@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E9B93DA82D2D3553002A6F39 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E9B93DA72D2D354E002A6F39 /* .gitignore */; };
+		E9B93DBC2D2D35F7002A6F39 /* Answers.md in Resources */ = {isa = PBXBuildFile; fileRef = E9B93DB72D2D35F7002A6F39 /* Answers.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E9B93D512D2D1684002A6F39 /* splashy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = splashy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9B93DA72D2D354E002A6F39 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		E9B93DB72D2D35F7002A6F39 /* Answers.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Answers.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,8 +39,10 @@
 		E9B93D482D2D1684002A6F39 = {
 			isa = PBXGroup;
 			children = (
+				E9B93DA72D2D354E002A6F39 /* .gitignore */,
 				E9B93D532D2D1684002A6F39 /* splashy */,
 				E9B93D522D2D1684002A6F39 /* Products */,
+				E9B93DB72D2D35F7002A6F39 /* Answers.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +118,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9B93DBC2D2D35F7002A6F39 /* Answers.md in Resources */,
+				E9B93DA82D2D3553002A6F39 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +266,7 @@
 				DEVELOPMENT_TEAM = PVFNQ7C43S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Splashy;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +296,7 @@
 				DEVELOPMENT_TEAM = PVFNQ7C43S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Splashy;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
